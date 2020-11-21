@@ -6,15 +6,26 @@ import Card from './Card';
 
 const keyExtractor = ({ id }) => id.toString();
 
-const renderItem = ({ item: { id, author } }) => (
-  <Card
-    fullname={author}
-    image={{
-      uri: getImageFromId(id),
-    }}
-  />
-);
-
-export default CardList = ({ items }) => (
-  <FlatList data={items} renderItem={renderItem} keyExtractor={keyExtractor} />
-);
+export default CardList = ({ items, commentsForItem, onPressComments }) => {
+  const renderItem = ({ item: { id, author } }) => {
+    const comments = (commentsForItem && commentsForItem[id]) || [];
+    return (
+      <Card
+        fullname={author}
+        image={{
+          uri: getImageFromId(id),
+        }}
+        linkText={`${comments ? comments.length : 0} Comments`}
+        onPressLinkText={() => onPressComments(id)}
+      />
+    );
+  };
+  return (
+    <FlatList
+      data={items}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      extraData={commentsForItem}
+    />
+  );
+};

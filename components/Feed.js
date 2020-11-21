@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchImages } from '../utils/api';
 import CardList from './CardList';
 
-export default Feed = ({ style }) => {
+export default Feed = ({ style, commentsForItem, onPressComments }) => {
   const [images, setImages] = useState({
     loading: true,
     error: false,
@@ -38,7 +38,11 @@ export default Feed = ({ style }) => {
 
   return (
     <SafeAreaView style={style}>
-      <CardList items={images.items} />
+      <CardList
+        items={images.items}
+        commentsForItem={commentsForItem}
+        onPressComments={onPressComments}
+      />
     </SafeAreaView>
   );
 };
